@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+
+  --color-bg: #07080a;
+  --color-surface: #111318;
+  --color-surface-2: #1a1d24;
+  --color-fg: #e8eaee;
+  --color-muted: #8b939e;
+  --color-subtle: #5c6370;
+  --color-accent: #d4d8de;
+  --color-accent-fg: #07080a;
+  --color-border: rgb(232 234 238 / 12%);
+  --color-ring: rgb(232 234 238 / 36%);
+  --color-danger: #e07a6a;
+
+  --color-theme-ember: #e08a4f;
+  --color-theme-ice: #7ec8e3;
+  --color-theme-moss: #7dba98;
+  --color-theme-bloom: #8eacc8;
+  --color-theme-noir: #d1d5db;
+  --color-theme-rose: #d4a0a0;
+
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-2xl: 1.75rem;
+
+  --tracking-display: -0.03em;
+  --tracking-mark: 0.22em;
+
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+
+  --shadow-border: 0 0 0 1px rgb(255 255 255 / 8%);
+  --shadow-border-hover: 0 0 0 1px rgb(255 255 255 / 14%);
+  --shadow-dock: 0 0 0 1px rgb(255 255 255 / 8%), 0 18px 40px rgb(0 0 0 / 40%);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  html,
+  body,
+  #app {
+    min-height: 100dvh;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  ::selection {
+    background: rgb(232 234 238 / 18%);
+    color: var(--color-fg);
+  }
+}
+
+@layer utilities {
+  .dock-pad {
+    padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+
+  .stagger-in {
+    animation: aether-rise 500ms var(--ease-smooth) both;
+  }
+
+  .stagger-in:nth-child(1) {
+    animation-delay: 40ms;
+  }
+  .stagger-in:nth-child(2) {
+    animation-delay: 120ms;
+  }
+  .stagger-in:nth-child(3) {
+    animation-delay: 200ms;
+  }
+  .stagger-in:nth-child(4) {
+    animation-delay: 280ms;
+  }
+}
+
+@keyframes aether-rise {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stagger-in {
+    animation: none;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
