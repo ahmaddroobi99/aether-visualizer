@@ -1,0 +1,58 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - run: npm ci
+      - name: Build static site
+        env:
+          GITHUB_PAGES: "true"
+          VITE_BASE: ${{ steps.pages.outputs.base_path }}
+        run: npm run build
+      - name: Prepare Pages artifact
+        run: |
+          SITE=.vercel/output/static
+          if [ ! -f "$SITE/index.html" ]; then
+            echo "Prerender did not emit index.html" >&2
+            ls -la "$SITE" >&2
+            exit 1
+          fi
+          touch "$SITE/.nojekyll"
+          cp "$SITE/index.html" "$SITE/404.html"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: .vercel/output/static
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
