@@ -48,3 +48,8 @@ React, TanStack Start, Tailwind CSS, Web Audio API, Canvas 2D.
 
 - [wake](https://github.com/ahmaddroobi99/wake) — pointer-driven particle field
 - [engineering-portfolio](https://github.com/ahmaddroobi99/engineering-portfolio)
+
+---
+
+Account grouping: research first, undergraduate last — see the [profile README](https://github.com/ahmaddroobi99/ahmaddroobi99). GitHub cannot custom-sort the Repositories tab.
+
